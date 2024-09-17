@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]  # Dependencies for building the project
+build-backend = "setuptools.build_meta"  # The build system used
+
+[project]
+name = "tiny_utils"  # Project name
+version = "0.1.0"  # Project version
+description = "Lightweight utilities for everyday tasks"  # Project description
+readme = "README.md"  # Path to the README file
+requires-python = ">=3.12"  # Required Python version
+
+# Author and license information
+authors = [
+    {name = "hypo69", email = "one.last.bit@gmail.com", cofee = "https://buymeacoffee.com/onelastbit0"}
+]
+license = {text = "MIT"}  # Project license
+
+# Dependencies required for the project
+dependencies = [
+    "requests>=2.25.1",  # Example dependency
+    "pandas>=1.2.0"
+]
+
+# Development dependencies
+[project.optional-dependencies]
+dev = ["pytest>=6.2", "black"]  # Development dependencies
+docs = ["mkdocs", "mkdocs-material"]  # Documentation dependencies with mkdocs
+sphinx = ["sphinx", "sphinx-rtd-theme", "sphinx-autodoc-typehints"]  # Sphinx documentation dependencies
+
+# Optionally, other dependencies for docs, testing, etc., can be listed
+docs = ["mkdocs", "mkdocs-material"]
+
+[tool.black]
+line-length = 88  # Code formatting settings for black
+skip-string-normalization = true  # Disable string normalization in black
+
+[tool.pytest.ini_options]
+minversion = "6.0"  # Minimum version of pytest
+addopts = "--verbose"  # Additional pytest options
+
+[tool.flake8]
+max-line-length = 88  # Maximum line length for flake8
+extend-ignore = ["E203", "E266"]  # Ignored error codes
+
+[tool.sphinx]
+project = "Tiny Utils"  # Sphinx project name
+version = "0.1.0"  # Sphinx project version
+author = "hypo69"  # Sphinx author name
+html_theme = "sphinx_rtd_theme"  # Sphinx HTML theme

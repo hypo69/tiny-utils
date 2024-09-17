@@ -159,8 +159,8 @@ cython_debug/
 # visual studio Я оставил. Там плагины 
 #.vs/StringNormalizerippets
 .vscode/
-.vs/hypotez/FileContentIndex/
-.vs/hypotez/v17/
+.vs/
+
 
 # Jupyter Notepad
 .ipynb_checkpoints/
@@ -188,7 +188,7 @@ cookies/
 _experiments/
 #string/
 #powershell/
-#iso/
+iso/
 #interface/
 #convertors/
 cursor_spinner.py
