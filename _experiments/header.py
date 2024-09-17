@@ -1,8 +1,8 @@
 ﻿## \file src/utils/_experiments/header.py
 ## \file ../src/utils/_experiments/header.py
 # -*- coding: utf-8 -*-
-#! /usr/share/projects/hypotez/venv/scripts python
-"""! Aliexpress experiments """
+# /path/to/interpreter/python
+""" Aliexpress experiments """
 import os
 import sys
 from pathlib import Path

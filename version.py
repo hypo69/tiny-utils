@@ -11,4 +11,4 @@ This project is licensed under the MIT License. See the [MIT License](https://op
 
 Commercial use of the code is prohibited without prior permission from the authors.
 """
-__cofee__: str = "Treat the developer to a cup of coffee for boosting enthusiasm in development: https://www.buymeacoffee.com/yourusername"
+__cofee__: str = "Treat the developer to a cup of coffee for boosting enthusiasm in development: https://buymeacoffee.com/onelastbit0"

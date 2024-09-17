@@ -185,15 +185,13 @@ cookies/
 
 #Dev 
 *(*).*
-#_experiments/
+_experiments/
 #string/
 #powershell/
 #iso/
 #interface/
-#file/
-#convertor/
-#check_port.py
-#cursor_spinner.py
+#convertors/
+cursor_spinner.py
 #file.py
 #image.py
 #jjson.py

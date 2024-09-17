@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\examples"
   ],
-  "SelectedNode": "\\docs",
+  "SelectedNode": "\\examples\\example_pprint.py",
   "PreviewInSolutionExplorer": false
 }
