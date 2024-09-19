@@ -1,4 +1,4 @@
-Вот документация для функций `save_text_file()`, `read_text_file()`, `get_filenames()`, и `get_directory_names()` в формате, аналогичном тому, что вы предоставили для `pprint()`:
+
 
 ```markdown
 # `save_text_file()` Function

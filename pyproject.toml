@@ -11,7 +11,7 @@ requires-python = ">=3.12"  # Required Python version
 
 # Author and license information
 authors = [
-    {name = "hypo69", email = "one.last.bit@gmail.com", cofee = "https://buymeacoffee.com/onelastbit0"}
+    {name = "hypo69", email = "one.last.bit@gmail.com"}
 ]
 license = {text = "MIT"}  # Project license
 
@@ -47,3 +47,4 @@ project = "Tiny Utils"  # Sphinx project name
 version = "0.1.0"  # Sphinx project version
 author = "hypo69"  # Sphinx author name
 html_theme = "sphinx_rtd_theme"  # Sphinx HTML theme
+cofee = "https://buymeacoffee.com/onelastbit0"

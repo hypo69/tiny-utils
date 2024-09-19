@@ -1,4 +1,7 @@
-
+""" """
+## \file ../tests/test_printer.py
+# -*- coding: utf-8 -*-
+# /path/to/interpreter/python
 import pytest
 import json
 from pathlib import Path

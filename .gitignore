@@ -186,6 +186,7 @@ cookies/
 #Dev 
 *(*).*
 _experiments/
+_examples/
 #string/
 #powershell/
 iso/
