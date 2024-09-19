@@ -15,3 +15,13 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
+
+   tiny_utils
+   tiny_utils.src.utils
+   tiny_utils.src.utils.file
+   tiny_utils.src.utils.interface
+   tiny_utils.src.utils.convertors
+
+   tiny_utils.src.logger
+   
+

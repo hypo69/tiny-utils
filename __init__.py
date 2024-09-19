@@ -1,93 +1,141 @@
 ﻿## \file ../src/utils/__init__.py
-## \file ../src/utils/__init__.py
 # -*- coding: utf-8 -*-
 # /path/to/interpreter/python
-
 """
 # tiny_utils Module
 
-The `tiny_utils` module is a collection of small, useful utilities designed to simplify common programming tasks. It includes tools for data conversion, file handling, and formatted output. This module is intended to help streamline your coding process by providing straightforward and reusable functions.
+The `tiny_utils` module is a collection of small, useful utilities designed to simplify common programming tasks. It includes tools for data conversion, file handling, and formatted output. This module helps streamline coding by providing straightforward and reusable functions.
 
 ## Overview
 
 ### Modules Included
 
-#### `convertor` module
+#### `convertors` module
 Functions for data conversion and handling.
-- **`json2csv_dict2csv`**: Convert JSON and dictionaries to CSV format.
-- **`TextToImageGenerator`**: Generate images from text.
-- **`xls2dict`**: Convert XLS files to dictionaries.
 - **`xml2dict`**: Convert XML data to dictionaries.
 - **`base64_to_tmpfile`**: Convert base64 encoded data to a temporary file.
-- **`csv2json_csv2dict`**: Convert CSV files to JSON and dictionary formats.
-- **`dict2ns_ns2dict`**: Convert dictionaries to SimpleNamespace objects and vice versa.
+- **`csv2dict`**: Convert CSV data to dictionaries.
+- **`csv2ns`**: Convert CSV data to SimpleNamespace objects.
+- **`dict2csv`**: Convert dictionaries to CSV format.
+- **`dict2html`**: Convert dictionaries to HTML format.
+- **`dict2json`**: Convert dictionaries to JSON format.
+- **`dict2ns`**: Convert dictionaries to SimpleNamespace objects.
+- **`dict2xls`**: Convert dictionaries to XLS format.
 - **`dict2xml`**: Convert dictionaries to XML format.
-- **`html2esc`**: Convert HTML to escaped characters.
+- **`html2dict`**: Convert HTML data to dictionaries.
+- **`html2ns`**: Convert HTML data to SimpleNamespace objects.
+- **`html2escape`**: Convert HTML characters to their escaped equivalents.
+- **`escape2html`**: Convert escaped HTML characters back to normal.
+- **`json2csv`**: Convert JSON data to CSV format.
+- **`json2ns`**: Convert JSON data to SimpleNamespace objects.
+- **`json2xls`**: Convert JSON data to XLS format.
+- **`json2xml`**: Convert JSON data to XML format.
+- **`ns2csv`**: Convert SimpleNamespace objects to CSV format.
+- **`ns2dict`**: Convert SimpleNamespace objects to dictionaries.
+- **`ns2json`**: Convert SimpleNamespace objects to JSON format.
+- **`ns2xls`**: Convert SimpleNamespace objects to XLS format.
+- **`ns2xml`**: Convert SimpleNamespace objects to XML format.
+- **`text2png`**: Generate PNG images from text.
 
-#### `printer.py`
+#### `printer` module
 Functions for pretty-printing data structures.
 - **`pprint`**: Pretty-print complex data structures for easier readability.
 
-#### `jjson.py`
+#### `jjson` module
 Functions for working with JSON data.
 - **`j_loads`**: Load JSON data from a string.
 - **`j_loads_ns`**: Load JSON data from a string into SimpleNamespace objects.
 - **`j_dumps`**: Dump data to a JSON string.
 
-#### `file.py`
+#### `file` module
 Utilities for file operations.
 - **`get_directory_names`**: Retrieve names of directories within a given path.
 - **`get_filenames`**: Retrieve names of files within a given path.
 - **`read_text_file`**: Read the contents of a text file.
 - **`save_text_file`**: Save content to a text file.
 - **`recursive_get_filenames`**: Recursively retrieve filenames within a directory.
-#### `image.py`
 - **`save_png`**: Save PNG images.
 - **`save_png_from_url`**: Save a PNG image from a URL.
 - **`save_video_from_url`**: Save a video file from a URL.
 
-## Usage
+This `__init__.py` file provides an overview of the `tiny_utils` module and imports various utilities for file operations, data conversions, pretty printing, and more. The `tiny_utils` module is modular and well-organized, offering multiple functionalities under submodules, such as `convertors`, `file`, `printer`, `jjson`, `image`, and `video`.
 
-The `tiny_utils` module is designed for ease of use. Here are a few examples of how you can utilize the functions:
+Here is an explanation of the key elements:
 
-### Example 1: Converting JSON to CSV
 
-```python
-from tiny_utils.convertor import json2csv_dict2csv
+1. **`convertors`**:
+   - Provides data conversion tools, such as converting between XML, JSON, CSV, and other formats.
+   - Includes methods for working with `SimpleNamespace` objects, which can offer more intuitive handling of data than plain dictionaries.
+   
+2. **`file`**:
+   - Handles file operations, including saving and reading text files, retrieving filenames and directory names, and more.
+   
+3. **`printer`**:
+   - Provides the `pprint` function for pretty-printing complex data structures.
+   
+4. **`jjson`**:
+   - Offers utilities for working with JSON data, such as loading, dumping, and converting to `SimpleNamespace`.
+   
+5. **`image`**:
+   - Functions to save PNG images, either from raw text or URLs.
+   
+6. **`video`**:
+   - Handles saving video files from URLs.
 
-json_data = '[{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]'
-csv_data = json2csv_dict2csv(json_data)
-print(csv_data)
+### Usage
+- The module offers a simplified approach to commonly repeated tasks in data conversion, file handling, and more. By importing specific functions, you can perform operations like saving a text file, converting XML to JSON, or pretty-printing data with minimal code.
 
+This setup enhances modularity and readability, making the module highly reusable across different projects.
 """
-...
+
 from packaging.version import Version
 from .version import __version__, __doc__, __details__
 
-from .convertors import (json2csv_dict2csv,
-                        TextToImageGenerator,
-                        version,
-                        xls2dict,
-                        xml2dict,
-                        base64_to_tmpfile,
-                        csv2json_csv2dict,
-                        dict2ns_ns2dict,
-                        dict2xml,
-                        html2esc,
-                        )
+from .convertors import (xml2dict, 
+                        base64_to_tmpfile, 
+                        csv2dict, 
+                        csv2ns, 
+                        dict2csv, 
+                        dict2html, 
+                        dict2json, 
+                        dict2ns, 
+                        dict2xls, 
+                        dict2xml, 
+                        html2dict, 
+                        html2ns, 
+                        html2escape, 
+                        escape2html, 
+                        json2csv, 
+                        json2ns, 
+                        json2xls, 
+                        json2xml, 
+                        ns2csv, 
+                        ns2dict, 
+                        ns2json, 
+                        ns2xls, 
+                        ns2xml, 
+                        text2png,) 
+
 
 from .printer import  pprint
-from .jjson import j_loads, j_loads_ns, j_dumps
-#from .interface import ftp, smtp, check_port
+from .jjson import (j_loads, 
+                    j_loads_ns, 
+                    j_dumps,)
+
 from .file import (get_directory_names, 
                     get_filenames, 
                     read_text_file, 
                     save_text_file, 
-                    recursive_get_filenames
+                    recursive_get_filenames,
                     )
-from .file import save_png, save_png_from_url
-from .file import save_video_from_url
 
+from .image import (save_png, 
+                    save_png_from_url)
+
+from .video import save_video_from_url
+
+#from .interface import ftp, smtp, check_port
 #from .cursor_spinner import show_spinner, spinning_cursor
 """ """
+                                                                                                                                                                                                                                                           
 
