@@ -15,5 +15,3 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
-   tiny_utils  # This refers to tiny_utils.rst
-   modules
