@@ -8,6 +8,8 @@ Subpackages
    :maxdepth: 4
 
    utils.convertors
+   utils.iso
+   utils.string
 
 Submodules
 ----------

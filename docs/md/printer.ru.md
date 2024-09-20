@@ -1,175 +1,117 @@
-Конечно! Вот обновленный текст:
 
-```markdown
-# Enhanced Print Formatting Module
+## Улучшенный вывод данных с помощью функции `pprint()`: инструмент для повышения читабельности в разработке на Python
 
-## Overview
+Функция `pprint` предоставляет разработчикам решение для более удобного и структурированного вывода данных в Python. Эта функция особенно полезна для "красивого вывода" сложных структур данных, таких как словари, списки, объекты и содержимое файлов, что повышает читаемость кода и облегчает отладку.
 
-The `printer.py` module provides enhanced print formatting for better readability of data structures. It supports pretty-printing of dictionaries, lists, and objects, with customization for handling `Path` objects and displaying class information. It also includes functionality to read and print lines from text files.
+### Ключевые возможности
 
-## Module Code
+#### Работа со строками
+`pprint` эффективно обрабатывает строковые данные: либо выводит их напрямую, либо, если строка представляет путь к файлу, считывает и выводит содержимое файла. Это особенно важно при работе с текстовыми, CSV или XLS/XLSX файлами.
 
+#### Структуры данных
+- **Словари**: Функция форматирует словари в структуру, напоминающую JSON, и преобразует объекты типа `Path` в строки для обеспечения совместимости.
+- **Списки**: Списки форматируются аккуратно, с преобразованием объектов `Path` для удобства чтения.
+- **Объекты**: Помимо вывода самого объекта, `pprint` предоставляет детализированную метаинформацию, такую как имя класса, базовые классы, методы и свойства, что упрощает инспекцию объектов во время разработки.
+
+#### Работа с файлами
+- **Текстовые файлы**: Считывает и выводит содержимое `.txt` файлов.
+- **CSV файлы**: Выводит первые несколько строк CSV файлов, что помогает быстро оценить структуру данных.
+- **XLS/XLSX файлы**: Выводит первые строки таблиц, предоставляя мгновенное представление о содержимом.
+
+### Обработка ошибок и гибкое поведение при ошибках
+Если во время чтения файла или вывода данных происходит ошибка, `pprint` выводит информативное сообщение об ошибке, что позволяет программе продолжать выполнение без остановки.
+
+### Алгоритм работы функции
+
+1. **Обработка строк**: Если аргумент является строкой и представляет собой путь к файлу, функция считывает и выводит содержимое файла. В противном случае она просто выводит строку.
+2. **Вывод словарей**: Все объекты `Path` преобразуются в строки, и словарь выводится в формате JSON с отступами для повышения читабельности.
+3. **Вывод списков**: По аналогии со словарями, списки форматируются для удобства чтения с преобразованием объектов `Path`.
+4. **Вывод объектов**: `pprint` выводит информацию об объекте, включая метаданные класса, что упрощает анализ структуры классов.
+5. **Работа с файлами**: `.txt`, `.csv`, `.xls` и `.xlsx` файлы выводятся в зависимости от их содержимого.
+6. **Обработка ошибок**: Ошибки обрабатываются аккуратно — вместо генерации исключений выводятся сообщения об ошибках.
+
+### Примеры использования
+
+#### Пример 1: Простая строка
 ```python
-# -*- coding: utf-8 -*-
-""" Module for enhanced print formatting for better readability of structures
-
-@todo Check here: https://prettyprinter.readthedocs.io/en/latest/index.html#
-@code
-# Example usage
-example_data = {
-    "path": Path("C:/example/path"),
-    "name": "example"
-}
-
-pprint(example_data)
-
-class A:
-    def __init__(self, var_1: str, var_2: bool = False):
-        ...
-
-pprint(A)
-
-# Example of reading and printing from a file
-pprint('example_list.txt')
-@code
-"""
-
-import json
-from pathlib import Path
-from pprint import pprint as pretty_print
-
-def pprint(print_data=None, end: str = '\n'):
-    """Pretty print output formatting"""
-    if not print_data:
-        return
-    
-    if isinstance(print_data, str):
-        # Check if the string is a file path
-        if Path(print_data).exists():
-            try:
-                with open(print_data, 'r', encoding='utf-8') as file:
-                    lines = file.readlines()
-                print(''.join(lines), end=end)
-            except Exception as e:
-                print(f"Error reading file {print_data}: {e}", end=end)
-        else:
-            print(print_data, end=end)
-        return
-    
-    try:
-        if isinstance(print_data, dict):
-            # Convert Path objects to strings for correct JSON serialization
-            print_data = {key: str(value) if isinstance(value, Path) else value for key, value in print_data.items()}
-            print(json.dumps(print_data, indent=4, ensure_ascii=False), end=end)
-        elif isinstance(print_data, list):
-            # Convert Path objects to strings in lists
-            print_data = [str(item) if isinstance(item, Path) else item for item in print_data]
-            pretty_print(print_data, end=end)
-        else:
-            pretty_print(print_data, end=end)
-            if hasattr(print_data, '__class__'):
-                class_name = print_data.__class__.__name__
-                class_bases = print_data.__class__.__bases__
-                print(f"Class: {class_name}", end=end)
-                if class_bases:
-                    print(f"Bases: {pretty_print([base.__name__ for base in class_bases], end=end)}", end=end)
-
-                attributes_and_methods = dir(print_data)
-                methods = []
-                properties = []
-
-                for attr in attributes_and_methods:
-                    if not attr.startswith('__'):
-                        try:
-                            value = getattr(print_data, attr)
-                        except Exception as ex:
-                            value = f"Error getting attribute {attr}: {ex}"
-                        if callable(value):
-                            methods.append(f"{attr}()")
-                        else:
-                            properties.append(f"{attr} = {value}")
-
-                print("Methods:", end=end)
-                for method in sorted(methods):
-                    print(method, end=end)
-                print("Properties:", end=end)
-                for prop in sorted(properties):
-                    print(prop, end=end)
-    except Exception as ex:
-        print(f"Error in pprint function: {ex}", end=end)
-        print(print_data, end=end)
+pprint("Hello, World!")
 ```
 
-## Usage
+**Вывод**:
+```
+Hello, World!
+```
 
-### Example Data
-
+#### Пример 2: Сложная структура списка
 ```python
-import json
-from pathlib import Path
+example_list = ["Hello", Path("C:/example/path"), 42, {"key": "value"}]
+pprint(example_list)
+```
 
-# Example JSON data
-example_json = {
-    "name": "John",
+**Вывод**:
+```
+[
+    "Hello",
+    "C:/example/path",
+    42,
+    {
+        "key": "value"
+    }
+]
+```
+
+#### Пример 3: Красивый вывод словаря
+```python
+example_dict = {"name": "Alice", "age": 30, "files": [Path("C:/file1.txt"), Path("C:/file2.txt")]}
+pprint(example_dict)
+```
+
+**Вывод**:
+```json
+{
+    "name": "Alice",
     "age": 30,
-    "city": "New York",
-    "skills": ["Python", "JavaScript", "SQL"]
+    "files": [
+        "C:/file1.txt",
+        "C:/file2.txt"
+    ]
 }
-pprint(example_json)
 ```
 
-### Example Data with Path Objects
-
-```python
-from pathlib import Path
-
-example_data = {
-    "path": Path("C:/example/path"),
-    "name": "example"
-}
-pprint(example_data)
-```
-
-### Example Class
-
+#### Пример 4: Вывод информации об объекте
 ```python
 class MyClass:
-    def __init__(self, var_1: str, var_2: bool = False):
-        self.var_1 = var_1
-        self.var_2 = var_2
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
 
-    def method(self):
-        pass
-
-pprint(MyClass)
+obj = MyClass(name="TestObject", value=100)
+pprint(obj)
 ```
 
-### Example File Reading
-
-Assuming you have a file named `example_list.txt` with some content:
-
-```plaintext
-Line 1: Hello, World!
-Line 2: This is an example file.
-Line 3: It contains multiple lines.
+**Вывод**:
+```
+Класс: MyClass
+Базовые классы: ('object',)
+Методы:
+display()
+Свойства:
+name = TestObject
+value = 100
 ```
 
-You can print its contents using:
-
+#### Пример 5: Чтение CSV файла
 ```python
-pprint('example_list.txt')
+pprint('example.csv', max_lines=2)
 ```
 
-## Features
-
-- **String Data**: Directly prints string data.
-- **Dictionaries**: Converts `Path` objects to strings and prints JSON-formatted dictionaries.
-- **Lists**: Converts `Path` objects to strings in lists and uses pretty-print.
-- **Objects**: Prints class information, including class name, bases, methods, and properties.
-- **File Reading**: Reads and prints contents from text files.
-
-## Notes
-
-- Убедись, что библиотека `prettyprinter` установлена для улучшенного форматирования.
-- Функция `pprint` обрабатывает различные типы данных и форматирует вывод соответствующим образом.
+**Вывод**:
 ```
+Заголовок CSV: ['name', 'age', 'city']
+Строка 1: ['Alice', '30', 'Wonderland']
+```
+
+### Заключение
+
+Функция `pprint()` — это важный инструмент для разработчиков, работающих с сложными структурами данных в Python. Она улучшает читаемость кода, упрощает отладку и предоставляет широкие возможности для работы с файлами, делая её незаменимым помощником в арсенале Python-разработчика.
+

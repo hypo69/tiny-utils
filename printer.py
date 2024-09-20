@@ -5,15 +5,22 @@
 This module provides enhanced print formatting for better readability of data structures.
 It supports pretty-printing of dictionaries, lists, objects, as well as reading and printing
 from CSV and XLS/XLSX files with customization for handling `Path` objects and class instances.
-
+Examples: https://colab.research.google.com/gist/hypo69/4109fdd1e12c6f158944504538255e75/-pprint-function.ipynb
 """
+# @title # code
+""" This function provides enhanced print formatting for better readability of data structures.
+It supports pretty-printing of dictionaries, lists, objects, as well as reading and printing
+from CSV and XLS/XLSX files with customization for handling `Path` objects and class instances.
+"""
+
+import json
 import csv
 import pandas as pd  # For handling XLS/XLSX files
 from pathlib import Path
 from typing import Any
+from pprint import pprint as pretty_print
 
-
-def pprint(print_data: str | list | dict | Any = None, depth: int = 4, max_lines: int = 10, *args, **kwargs) -> None:
+def pprint(print_data: str | list | dict | Path | Any = None, depth: int = 4, max_lines: int = 10, *args, **kwargs) -> None:
     """ Pretty prints the given data in a formatted way.
 
     The function handles various data types and structures such as strings, dictionaries, lists, objects, and file paths.
@@ -35,6 +42,17 @@ def pprint(print_data: str | list | dict | Any = None, depth: int = 4, max_lines
     """
     if not print_data:
         return
+
+    def _read_text_file(file_path: str | Path, max_lines: int) -> list | None:
+        """Reads the content of a text file up to `max_lines` lines."""
+        path = Path(file_path)
+        if path.is_file():
+            try:
+                with path.open("r", encoding="utf-8") as file:
+                    return [file.readline().strip() for _ in range(max_lines)]
+            except Exception as ex:
+                pretty_print(f"Error reading file {file_path}: {ex}")
+                return None
 
     def _print_class_info(instance: Any, *args, **kwargs) -> None:
         """Prints class information including class name, methods, and properties."""
@@ -60,12 +78,12 @@ def pprint(print_data: str | list | dict | Any = None, depth: int = 4, max_lines
                 else:
                     properties.append(f"{attr} = {value}")
 
-        print("Methods:", *args, **kwargs)
+        pretty_print("Methods:", *args, **kwargs)
         for method in sorted(methods):
-            print(method, *args, **kwargs)
+            pretty_print(method, *args, **kwargs)
         print("Properties:", *args, **kwargs)
         for prop in sorted(properties):
-            print(prop, *args, **kwargs)
+            pretty_print(prop, *args, **kwargs)
 
     def _print_csv(file_path: str, max_lines: int) -> None:
         """Prints the first `max_lines` lines from a CSV file."""
@@ -78,40 +96,62 @@ def pprint(print_data: str | list | dict | Any = None, depth: int = 4, max_lines
                     print(f"Row {i}: {row}")
                     if i >= max_lines:
                         break
-        except Exception as e:
-            print(f"Error reading CSV file: {e}")
+        except Exception as ex:
+            pretty_print(f"Error reading CSV {file_path}: {ex}")
 
     def _print_xls(file_path: str, max_lines: int) -> None:
         """Prints the first `max_lines` rows from an XLS/XLSX file."""
         try:
             df = pd.read_excel(file_path, nrows=max_lines)
             print(df.head(max_lines).to_string(index=False))
-        except Exception as e:
-            print(f"Error reading XLS file: {e}")
+        except Exception as ex:
+            pretty_print(f"Error reading XLS/XLSX {file_path}: {ex}")
+
+    def json_serializer(obj):
+        """Custom handler for unsupported data types in JSON."""
+        if isinstance(obj, Path):
+            return str(obj)
+        raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
     # Check if it's a file path
-    if isinstance(print_data, str) and Path(print_data).is_file():
-        file_extension = Path(print_data).suffix.lower()
+    if isinstance(print_data, str):
+        if Path(print_data).is_file():
+            file_extension = Path(print_data).suffix.lower()
 
-        if file_extension == '.csv':
-            _print_csv(print_data, max_lines)
-        elif file_extension in ['.xls', '.xlsx']:
-            _print_xls(print_data, max_lines)
+            if file_extension == '.csv':
+                _print_csv(print_data, max_lines)
+            elif file_extension in ['.xls', '.xlsx']:
+                _print_xls(print_data, max_lines)
+            elif file_extension == '.txt':
+                content = _read_text_file(print_data, max_lines)
+                if content:
+                    for line in content:
+                        print(line)
+            elif file_extension == '.json':
+                try:
+                    with open(print_data, 'r', encoding='utf-8') as json_file:
+                        json_data = json.load(json_file)
+                        print(json.dumps(json_data, default=json_serializer, indent=4))
+                except Exception as ex:
+                    pretty_print(f"Error reading JSON {print_data}: {ex}")
         else:
-            print(f"Unsupported file format: {file_extension}")
+            pretty_print(print_data, *args, **kwargs)
     else:
         # If the data is not a file, pretty print or handle it as a class
         try:
             if isinstance(print_data, dict):
-                printer.pprint(print_data)
+                print(json.dumps(print_data, default=json_serializer, indent=4))
             elif isinstance(print_data, list):
-                printer.pprint(print_data)
+                print("[")
+                for item in print_data:
+                    print(f"\t{item} - {type(item)}")
+                print("]")
             else:
-                printer.pprint(print_data, *args, **kwargs)
+                print(print_data, *args, **kwargs)
                 if hasattr(print_data, '__class__'):
                     _print_class_info(print_data, *args, **kwargs)
         except Exception as ex:
-            print(f"Error in pprint() function: {ex}")
+            pretty_print(f"Error in pprint() function: {ex}")
 
 
 if __name__ == '__main__':
@@ -152,3 +192,31 @@ if __name__ == '__main__':
 
     obj = MyClass("value1", True)
     pprint(obj)
+
+    # Example 6: Print a Path object
+    pprint(Path("/example/path"))
+
+    # Example 7: Print a string
+    pprint("This is a simple string.")
+
+    # Example 8: Print an integer
+    pprint(123)
+
+    # Example 9: Print a float
+    pprint(3.14159)
+
+    # Example 10: Print a boolean
+    pprint(True)
+
+    # Example 11: Print JSON data
+    example_json = {
+        "name": "Bob",
+        "age": 25,
+        "languages": ["Python", "JavaScript"],
+        "details": {"employed": True, "skills": ["Django", "Flask"]}
+    }
+    pprint(example_json)
+
+    # Example 12: Print a nested list
+    nested_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    pprint(nested_list)
