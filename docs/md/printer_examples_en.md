@@ -1,28 +1,37 @@
-
-# pprint Examples
-
-## Example 1: Pretty Printing a Dictionary
+## Examples of `pprint` usage:
+## Example 1: print string data
 ```python
-example_dict = {
-    'name': 'Alice',
-    'age': 30,
-    'hobbies': ['reading', 'hiking', 'coding'],
-    'address': {'city': 'New York', 'country': 'USA'}
-}
-pprint(example_dict)
+pprint("Hello, World!")
 ```
+### output
+```
+'Hello, World!'
+```
+Example 2.1: print one list
 
-## Example 2: Pretty Printing a List
 ```python
+from pathlib import Path
+
 example_list = [
     "Hello, World!",
-    Path("/example/path"),
+    Path("C:/example/path"),
     42,
-    {"key": "value"}
+    {"key": "value"},
+    [1, 2, 3]
 ]
+
 pprint(example_list)
 ```
-
+### output
+```
+[
+	Hello, World! - <class 'str'>
+	C:/example/path - <class 'pathlib.PosixPath'>
+	42 - <class 'int'>
+	{'key': 'value'} - <class 'dict'>
+	[1, 2, 3] - <class 'list'>
+]
+```
 ## Example 3: Printing First 5 Lines from a CSV File
 ```python
 import csv

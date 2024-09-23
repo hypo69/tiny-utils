@@ -5,20 +5,24 @@
 This module provides enhanced print formatting for better readability of data structures.
 It supports pretty-printing of dictionaries, lists, objects, as well as reading and printing
 from CSV and XLS/XLSX files with customization for handling `Path` objects and class instances.
-Examples: https://colab.research.google.com/gist/hypo69/4109fdd1e12c6f158944504538255e75/-pprint-function.ipynb
+Examples: https://colab.research.google.com/drive/1uBcZuMabkix2qpNJtNkMImF1BX7e6Eqd
 """
-# @title # code
-""" This function provides enhanced print formatting for better readability of data structures.
-It supports pretty-printing of dictionaries, lists, objects, as well as reading and printing
-from CSV and XLS/XLSX files with customization for handling `Path` objects and class instances.
-"""
+
 
 import json
 import csv
-import pandas as pd  # For handling XLS/XLSX files
+import pandas as pd
 from pathlib import Path
 from typing import Any
 from pprint import pprint as pretty_print
+ # @title ### код функции
+import json
+import csv
+import pandas as pd
+from pathlib import Path
+from typing import Any
+from pprint import pprint as pretty_print
+
 
 def pprint(print_data: str | list | dict | Path | Any = None, depth: int = 4, max_lines: int = 10, *args, **kwargs) -> None:
     """ Pretty prints the given data in a formatted way.
@@ -50,8 +54,8 @@ def pprint(print_data: str | list | dict | Path | Any = None, depth: int = 4, ma
             try:
                 with path.open("r", encoding="utf-8") as file:
                     return [file.readline().strip() for _ in range(max_lines)]
-            except Exception as ex:
-                pretty_print(f"Error reading file {file_path}: {ex}")
+            except Exception:
+                pretty_print(print_data)
                 return None
 
     def _print_class_info(instance: Any, *args, **kwargs) -> None:
@@ -96,22 +100,21 @@ def pprint(print_data: str | list | dict | Path | Any = None, depth: int = 4, ma
                     print(f"Row {i}: {row}")
                     if i >= max_lines:
                         break
-        except Exception as ex:
-            pretty_print(f"Error reading CSV {file_path}: {ex}")
+        except Exception:
+            pretty_print(print_data)
 
     def _print_xls(file_path: str, max_lines: int) -> None:
         """Prints the first `max_lines` rows from an XLS/XLSX file."""
         try:
             df = pd.read_excel(file_path, nrows=max_lines)
             print(df.head(max_lines).to_string(index=False))
-        except Exception as ex:
-            pretty_print(f"Error reading XLS/XLSX {file_path}: {ex}")
+        except Exception:
+            pretty_print(print_data)
 
     def json_serializer(obj):
         """Custom handler for unsupported data types in JSON."""
         if isinstance(obj, Path):
             return str(obj)
-        raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
     # Check if it's a file path
     if isinstance(print_data, str):
@@ -131,16 +134,17 @@ def pprint(print_data: str | list | dict | Path | Any = None, depth: int = 4, ma
                 try:
                     with open(print_data, 'r', encoding='utf-8') as json_file:
                         json_data = json.load(json_file)
-                        print(json.dumps(json_data, default=json_serializer, indent=4))
-                except Exception as ex:
-                    pretty_print(f"Error reading JSON {print_data}: {ex}")
+                        # Use ensure_ascii=False for correct encoding
+                        print(json.dumps(json_data, ensure_ascii=False, indent=4))
+                except Exception:
+                    pretty_print(print_data)
         else:
             pretty_print(print_data, *args, **kwargs)
     else:
         # If the data is not a file, pretty print or handle it as a class
         try:
             if isinstance(print_data, dict):
-                print(json.dumps(print_data, default=json_serializer, indent=4))
+                print(json.dumps(print_data, ensure_ascii=False, indent=4))
             elif isinstance(print_data, list):
                 print("[")
                 for item in print_data:
@@ -150,8 +154,8 @@ def pprint(print_data: str | list | dict | Path | Any = None, depth: int = 4, ma
                 print(print_data, *args, **kwargs)
                 if hasattr(print_data, '__class__'):
                     _print_class_info(print_data, *args, **kwargs)
-        except Exception as ex:
-            pretty_print(f"Error in pprint() function: {ex}")
+        except Exception:
+            pretty_print(print_data)
 
 
 if __name__ == '__main__':
@@ -220,3 +224,21 @@ if __name__ == '__main__':
     # Example 12: Print a nested list
     nested_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     pprint(nested_list)
+
+    import pandas as pd
+    from pathlib import Path
+
+
+    # Create a sample DataFrame and save it as an Excel file
+    data = {
+        'name': ['Alice', 'Bob', 'Charlie'],
+        'age': [30, 25, 35],
+        'city': ['New York', 'Los Angeles', 'Chicago']
+    }
+    df = pd.DataFrame(data)
+
+    # Save the DataFrame as an .xlsx file
+    df.to_excel('example.xlsx', index=False)
+
+    # Print the file name using pprint
+    pprint('example.xlsx', max_lines=3)

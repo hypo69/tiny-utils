@@ -117,20 +117,11 @@ The `tiny_utils` module is designed for ease of use.
 
   
 
-[WIKI](https://github.com/hypo69/tiny-utils/wiki)
+For detailed documentation, see the [wiki](https://github.com/hypo69/tiny-utils/wiki)
 
   
 
 ### License
-
-  
-
 Copyright (c) 2024 hypo69
-
-  
-
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-  
-
 Commercial use of the code is prohibited without prior permission from the authors.
