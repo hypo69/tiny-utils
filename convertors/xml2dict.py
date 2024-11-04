@@ -1,4 +1,5 @@
-﻿## \file ../src/utils/convertor/xml2dict_xml2json_xml2csv_xml2xls.py
+﻿## \file src/utils/convertors/xml2dict.py
+## \file src/utils/convertors/xml2dict.py
 # -*- coding: utf-8 -*-
 # /path/to/interpreter/python
 """

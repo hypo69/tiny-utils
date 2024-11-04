@@ -1,11 +1,11 @@
-## \file ../src/utils/convertors/dict.py
+## \file src/utils/convertors/dict.py
 # -*- coding: utf-8 -*-
 # /path/to/interpreter/python
 """
 Converter for converting between dict and SimpleNamespace objects.
 
 This module contains functions to recursively convert dictionaries to SimpleNamespace
-objects and vice versa.
+objects and vice versa, as well as exporting data to various formats.
 
 Functions:
     - `dict2ns`: Recursively convert dictionaries to SimpleNamespace objects.
@@ -14,14 +14,73 @@ Functions:
     - `dict2json`: Save dictionary or SimpleNamespace data to a JSON file.
     - `dict2xls`: Save dictionary or SimpleNamespace data to an XLS file.
     - `dict2html`: Generate an HTML table string from a dictionary or SimpleNamespace object.
+    - `dict2pdf`: Save dictionary data as a PDF file.
 """
+
+
 import json
 from types import SimpleNamespace
 from typing import Any, Dict, List
 from pathlib import Path
 from xml.dom.minidom import getDOMImplementation
-from src.utils.csv import save_csv_file
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
 from src.utils.xls import save_xls_file
+
+# def dict2ns(data: Dict[str, Any] | List[Any]) -> Any:
+#     """
+#     Recursively convert dictionaries to SimpleNamespace.
+
+#     Args:
+#         data (Dict[str, Any] | List[Any]): The data to convert.
+
+#     Returns:
+#         Any: Converted data as a SimpleNamespace or a list of SimpleNamespace.
+#     """
+#     if isinstance(data, dict):
+#         for key, value in data.items():
+#             if isinstance(value, dict):
+#                 data[key] = dict2ns(value)
+#             elif isinstance(value, list):
+#                 data[key] = [dict2ns(item) if isinstance(item, dict) else item for item in value]
+#         return SimpleNamespace(**data)
+#     elif isinstance(data, list):
+#         return [dict2ns(item) if isinstance(item, dict) else item for item in data]
+#     return data
+## \file src/utils/convertors/dict.py
+# -*- coding: utf-8 -*-
+# /path/to/interpreter/python
+
+
+# Функция для конвертации словаря в PDF
+def dict2pdf(data: dict | SimpleNamespace, file_path: str | Path) -> None:
+    """!
+    Save dictionary data to a PDF file.
+
+    Args:
+        data (dict | SimpleNamespace): The dictionary to convert to PDF.
+        file_path (str | Path): Path to the output PDF file.
+    """
+    if isinstance(data, SimpleNamespace):
+        data = data.__dict__
+
+    pdf = canvas.Canvas(str(file_path), pagesize=A4)
+    width, height = A4
+    x, y = 50, height - 50
+
+    pdf.setFont("Helvetica", 12)
+
+    for key, value in data.items():
+        line = f"{key}: {value}"
+        pdf.drawString(x, y, line)
+        y -= 20
+
+        if y < 50:  # Создать новую страницу, если места недостаточно
+            pdf.showPage()
+            pdf.setFont("Helvetica", 12)
+            y = height - 50
+
+    pdf.save()
 
 def dict2ns(data: Dict[str, Any] | List[Any]) -> Any:
     """
@@ -167,19 +226,6 @@ def dict2csv(data: dict | SimpleNamespace, file_path: str | Path) -> bool:
     """
     return save_csv_file(data, file_path)
 
-def dict2json(data: dict | SimpleNamespace, file_path: str | Path) -> bool:
-    """
-    Save dictionary or SimpleNamespace data to a JSON file.
-
-    Args:
-        data (dict | SimpleNamespace): The data to save to a JSON file.
-        file_path (str | Path): Path to the JSON file.
-
-    Returns:
-        bool: True if the file was saved successfully, False otherwise.
-    """
-    return json.dumps(data, file_path)
-
 def dict2xls(data: dict | SimpleNamespace, file_path: str | Path) -> bool:
     """
     Save dictionary or SimpleNamespace data to an XLS file.
@@ -245,3 +291,5 @@ def dict2html(data: dict | SimpleNamespace, encoding: str = 'UTF-8') -> str:
     
     html_content = dict_to_html_table(data)
     return f'<!DOCTYPE html>\n<html>\n<head>\n<meta charset="{encoding}">\n<title>Dictionary to HTML</title>\n</head>\n<body>\n{html_content}\n</body>\n</html>'
+
+

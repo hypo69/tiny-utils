@@ -1,4 +1,5 @@
-﻿## \file ../src/utils/interface/smtp.py
+﻿## \file src/utils/interface/smtp.py
+## \file src/utils/smtp.py
 # -*- coding: utf-8 -*-
 # /path/to/interpreter/python
 
@@ -122,4 +123,4 @@ def receive(imap_server: str, user: str, password: str, folder: str = 'inbox') -
 
     except Exception as ex:
         logger.error(f"Error occurred while retrieving emails: {ex}", exc_info=True)
-        return None
+        return

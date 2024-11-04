@@ -1,5 +1,6 @@
-## Examples of `pprint` usage:
-## Example 1: print string data
+
+# Examples of `pprint` usage:
+### Example 1: print string data
 ```python
 pprint("Hello, World!")
 ```
@@ -7,31 +8,18 @@ pprint("Hello, World!")
 ```
 'Hello, World!'
 ```
-Example 2.1: print one list
 
+### Example 1: print string data
 ```python
-from pathlib import Path
-
 example_list = [
     "Hello, World!",
-    Path("C:/example/path"),
+    Path("/example/path"),
     42,
-    {"key": "value"},
-    [1, 2, 3]
+    {"key": "value"}
 ]
-
 pprint(example_list)
 ```
-### output
-```
-[
-	Hello, World! - <class 'str'>
-	C:/example/path - <class 'pathlib.PosixPath'>
-	42 - <class 'int'>
-	{'key': 'value'} - <class 'dict'>
-	[1, 2, 3] - <class 'list'>
-]
-```
+
 ## Example 3: Printing First 5 Lines from a CSV File
 ```python
 import csv

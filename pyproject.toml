@@ -47,4 +47,4 @@ project = "Tiny Utils"  # Sphinx project name
 version = "0.1.0"  # Sphinx project version
 author = "hypo69"  # Sphinx author name
 html_theme = "sphinx_rtd_theme"  # Sphinx HTML theme
-cofee = "https://buymeacoffee.com/onelastbit0"
+cofee = "https://boosty.to/hypo69"

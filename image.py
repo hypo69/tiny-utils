@@ -1,4 +1,4 @@
-## \file ../src/utils/image.py
+## \file src/utils/image.py
 # -*- coding: utf-8 -*-
 #! /path/to/interpreter/python
 """
@@ -35,7 +35,7 @@ from PIL import Image
 from pathlib import Path
 import asyncio
 from src.logger import logger
-from src.utils import pprint
+from src.utils.printer import pprint
 
 
 async def save_png_from_url(
@@ -61,7 +61,7 @@ async def save_png_from_url(
                 image_data = await response.read()
     except Exception as ex:
         logger.error("Error downloading image", ex, exc_info=True)
-        return None
+        return 
 
     return await save_png(image_data, filename)
 
@@ -95,7 +95,7 @@ async def save_png(image_data: bytes, file_name: str | Path) -> str | None:
         # Verify file creation
         if not file_path.exists():
             logger.error(f"File {file_path} was not created.")
-            return None
+            return
 
         # Open and save the image
         image = Image.open(file_path)
@@ -104,11 +104,11 @@ async def save_png(image_data: bytes, file_name: str | Path) -> str | None:
         # Verify file size
         if file_path.stat().st_size == 0:
             logger.error(f"File {file_path} saved, but its size is 0 bytes.")
-            return None
+            return
 
     except Exception as ex:
         logger.critical(f"Failed to save file {file_path}", ex, exc_info=True)
-        return None
+        return
 
     return str(file_path)
 
@@ -130,11 +130,11 @@ def get_image_data(file_name: str | Path) -> bytes | None:
 
     if not file_path.exists():
         logger.error(f"File {file_path} does not exist.")
-        return None
+        return
 
     try:
         with open(file_path, "rb") as file:
             return file.read()
     except Exception as ex:
         logger.error(f"Error reading file {file_path}", ex, exc_info=True)
-        return None
+        return

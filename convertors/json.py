@@ -1,4 +1,5 @@
-﻿## \file ../src/utils/convertors/json.py
+﻿## \file src/utils/convertors/json.py
+## \file src/utils/convertors/json.py
 # -*- coding: utf-8 -*-
 # /path/to/interpreter/python
 """
@@ -20,6 +21,7 @@ from typing import List, Dict
 from src.utils.csv import save_csv_file
 from src.utils.jjson import j_dumps
 from src.utils.xls import save_xls_file
+from src.utils.convertors.dict import dict2xml
 from src.logger import logger
 
 
@@ -56,6 +58,7 @@ def json2csv(json_data: str | list | dict | Path, csv_file_path: str | Path) -> 
         return True
     except Exception as ex:
         logger.error(f"json2csv failed", ex, True)
+        ...
 
 
 def json2ns(json_data: str | dict | Path) -> SimpleNamespace:
@@ -106,7 +109,7 @@ def json2xml(json_data: str | dict | Path, root_tag: str = "root") -> str:
     return dict2xml(json_data)
 
 
-def json2xls(json_data: str | list | dict | Path, file_path: str | Path) -> bool:
+def json2xls(json_data: str | list | dict | Path, xls_file_path: str | Path) -> bool:
     """
     Convert JSON data or JSON file to XLS format.
 

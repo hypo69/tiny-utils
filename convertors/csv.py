@@ -1,4 +1,5 @@
-﻿## \file ../src/utils/convertors/csv.py
+﻿## \file src/utils/convertors/csv.py
+## \file src/utils/convertors/csv.py
 # -*- coding: utf-8 -*-
 # /path/to/interpreter/python
 """
@@ -36,9 +37,11 @@ Functions:
 import json
 import csv
 from pathlib import Path
+from typing import List, Dict
 from types import SimpleNamespace
 from src.logger import logger
-from src.utils.csv import read_csv_as_dict, read_csv_as_ns, save_csv_file
+from src.utils.csv import read_csv_as_dict, read_csv_as_ns, save_csv_file, read_csv_file
+from src.utils.jjson import j_loads, j_dumps
 
 def csv2dict(csv_file: str | Path, *args, **kwargs) -> dict | None:
     """
@@ -69,3 +72,35 @@ def csv2ns(csv_file: str | Path, *args, **kwargs) -> SimpleNamespace | None:
         Exception: If unable to read CSV.
     """
     return read_csv_as_ns(csv_file, *args, **kwargs)
+
+def csv_to_json(
+    csv_file_path: str | Path,
+    json_file_path: str | Path,
+    exc_info: bool = True
+) -> List[Dict[str, str]] | None:
+    """! Convert a CSV file to JSON format and save it to a JSON file.
+
+    Args:
+        csv_file_path (str | Path): The path to the CSV file to read.
+        json_file_path (str | Path): The path to the JSON file to save.
+        exc_info (bool, optional): If True, includes traceback information in the log. Defaults to True.
+
+    Returns:
+        List[Dict[str, str]] | None: The JSON data as a list of dictionaries, or None if conversion failed.
+
+    Example:
+        >>> json_data = csv_to_json('dialogue_log.csv', 'dialogue_log.json')
+        >>> print(json_data)
+        [{'role': 'user', 'content': 'Hello'}, {'role': 'assistant', 'content': 'Hi there!'}]
+    """
+    try:
+        data = read_csv_file(csv_file_path, exc_info=exc_info)
+        if data is not None:
+            with open(json_file_path, 'w', encoding='utf-8') as jsonfile:
+                json.dump(data, jsonfile, indent=4)
+            return data
+        return
+    except Exception as ex:
+        logger.error("Failed to convert CSV to JSON", ex, exc_info=exc_info)
+        return
+

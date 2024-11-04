@@ -29,4 +29,88 @@ Here are some of its key features and enhancements:
 
 ### Example Usages:
 
-see on (exapmles)[]
+#### 1. Printing a String:
+```python
+pprint("Hello, World!")
+```
+
+**Output**:
+```
+Hello, World!
+```
+
+#### 2. Printing a List:
+```python
+example_list = ["Hello", Path("C:/example/path"), 42, {"key": "value"}]
+pprint(example_list)
+```
+
+**Output**:
+```python
+[
+    "Hello",
+    "C:/example/path",
+    42,
+    {
+        "key": "value"
+    }
+]
+```
+
+#### 3. Printing a Dictionary:
+```python
+example_dict = {
+    "name": "Alice",
+    "age": 30,
+    "files": [Path("C:/file1.txt"), Path("C:/file2.txt")]
+}
+pprint(example_dict)
+```
+
+**Output**:
+```json
+{
+    "name": "Alice",
+    "age": 30,
+    "files": [
+        "C:/file1.txt",
+        "C:/file2.txt"
+    ]
+}
+```
+
+#### 4. Printing Object Information:
+```python
+class MyClass:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+obj = MyClass(name="TestObject", value=100)
+pprint(obj)
+```
+
+**Output**:
+```python
+Class: MyClass
+Bases: ('object',)
+Methods:
+display()
+Properties:
+name = TestObject
+value = 100
+```
+
+#### 5. Reading from a CSV File:
+```python
+pprint('example.csv', max_lines=2)
+```
+
+**Output**:
+```
+CSV Header: ['name', 'age', 'city']
+Row 1: ['Alice', '30', 'Wonderland']
+```
+
+### Conclusion:
+This enhanced version of `pprint` has been a valuable tool in my development workflow, making it easier to inspect data, read files, and debug complex structures. I'm always open to suggestions for further improving it!
