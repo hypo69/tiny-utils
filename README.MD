@@ -1,4 +1,4 @@
-```markdown
+
 # Tiny Utils
 
 **Tiny Utils** is a utility library providing a collection of lightweight helper functions for various common tasks. This library includes utilities for data format conversion, text and file manipulation, string operations, date-time formatting, image processing, and more. It is organized into several modules for easy access to specific functionalities.
@@ -133,6 +133,5 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE] file for more information.
-```
 
 This README file provides an organized and informative overview, covering installation, module descriptions, usage examples, and contributing guidelines.
